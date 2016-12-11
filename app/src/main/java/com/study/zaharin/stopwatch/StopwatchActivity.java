@@ -10,6 +10,9 @@ import java.util.Locale;
 
 public class StopwatchActivity extends AppCompatActivity {
 
+    public static final String EXTRA_SECONDS = "seconds";
+    public static final String EXTRA_RUNNING = "running";
+
     private int seconds = 0;
     private boolean running = false;
 
@@ -17,6 +20,11 @@ public class StopwatchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stopwatch);
+
+        if (savedInstanceState != null) {
+            seconds = savedInstanceState.getInt(EXTRA_SECONDS);
+            running = savedInstanceState.getBoolean(EXTRA_RUNNING);
+        }
 
         runTimer();
     }
@@ -52,5 +60,11 @@ public class StopwatchActivity extends AppCompatActivity {
                 handler.postDelayed(this, 1000);
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(EXTRA_SECONDS, seconds);
+        outState.putBoolean(EXTRA_RUNNING, running);
     }
 }
